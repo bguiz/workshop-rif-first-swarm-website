@@ -1,10 +1,17 @@
-# Run your own swarm website demo
-
 ## Getting started
 
-Clone this repo, `cd` into its folder,
-then start a HTTP server of your choice.
-Serve the `dist` folder at port `7500`.
+Clone the demo git repo, and `cd` into its folder.
+
+```shell
+git clone git@github.com:bguiz/workshop-rif-first-swarm-website.git
+cd workshop-rif-first-swarm-website
+
+```
+
+## Preview of end goal
+
+Start a HTTP server of your choice,
+and serve the `dist` folder at port `7500`.
 
 ```shell
 $ npx http-server -c-1 -p 7500 ./dist/
@@ -16,9 +23,9 @@ Hit CTRL-C to stop the server
 
 ```
 
-Visit http://localhost:7500/
+Visit [http://localhost:7500/](http://localhost:7500/)
 
-This is our target -
+This is our target or end goal -
 let's accomplish the same thing
 using a decentralised storage technology:
 [Swarm](https://swarm-guide.readthedocs.io/en/latest/).
@@ -47,7 +54,8 @@ user	0m16.389s
 sys	0m3.820s
 ```
 
-Oof! Over four minutes just for a git clone?
+Oof!
+Over four minutes just for a git clone?
 ... but it's going to be worth it!
 
 Let's compile the Swarm binary:
@@ -498,7 +506,7 @@ Run "/home/bguiz/go/src/github.com/ethersphere/swarm/build/bin/swarm" to launch 
 
 ```
 
-Lots of output, but it's mostly not stuff we care about.
+Lots and **lots** of output, but it's mostly stuff we do not care about.
 The main thing we want is that final line,
 which tells you where the `swarm` binary is located.
 
@@ -509,7 +517,7 @@ which tells you where the `swarm` binary is located.
 > `/home/bguiz/go/src/github.com/ethersphere/swarm/build/bin` to
 > my `PATH` environment variable.
 
-Let's see that we have got a working binary.
+Let's check that we have got a working binary.
 
 ```shell
 $ /home/bguiz/go/src/github.com/ethersphere/swarm/build/bin/swarm version
@@ -522,13 +530,6 @@ OS: linux
 ```
 
 Next, let's start swarm.
-Note that this is a service which uses peer to peer networking.
-Your computer is one node of many connected to this same network,
-and talking to this same protocol.
-Therefore, the very first time that you start up Swarm on your computer,
-you will be prompted to create an account,
-which will be used to uniquely identify this particular node -
-that is what the password is for.
 
 ```shell
 $ /home/bguiz/go/src/github.com/ethersphere/swarm/build/bin/swarm
@@ -539,6 +540,17 @@ Passphrase:
 Repeat passphrase:
 Unlocking swarm account 0xD1bCFFf13f996247d8A84a37bC7b32436B40c62F [1/3]
 Passphrase:
+```
+
+> Note that Swarm is a service which uses peer to peer networking.
+> Your computer is one node of many connected to this same network,
+> and talking to this same protocol.
+> Therefore, the very first time that you start up Swarm on your computer,
+> you will be prompted to create an account,
+> which will be used to uniquely identify this particular node -
+> that is what the password is for.
+
+```shell
 INFO [05-19|15:03:53.009] Starting peer-to-peer node               instance=swarm/v0.5.8-6faff7fc/linux-amd64/go1.14.3
 INFO [05-19|15:03:53.065] New local node record                    seq=1 id=0f1272cb73bcf1ba ip=127.0.0.1 udp=30399 tcp=30399
 INFO [05-19|15:03:53.065] Updated bzz local addr                   oaddr=5c31b4c2924e4689554b80893c663833de5852b32f090969860739dbdb1a69c0 uaddr=enode://d18081c0f7bf09c021d519e0d8351473def7a408820bffabc62bf2e878fd2ff84df3b46407ab347d632dfbec4f13cd7635ea2ee4c8fdace17c442ae032615d48@127.0.0.1:30399
@@ -561,10 +573,11 @@ INFO [05-19|15:03:53.248] New local node record                    seq=2 id=0f12
 ERROR[05-19|15:04:06.517] batch has timed out                      peer=3de6224e3c9c430f:656e6f64653a2f2f ruid=3716585580
 ```
 
-Now vis https://localhost:8500 and you will see a web user interface
+Now visit [http://localhost:8500](http://localhost:8500) and you will see a web user interface
 for downloading and uploading files.
 Have a play around with this if you like,
 otherwise jump back into your terminal.
+
 You should see output similar to this related to serving up the front end.
 
 ```shell
@@ -580,7 +593,8 @@ INFO [05-19|15:08:08.453] request served                           ruid=d89959fa
 
 Remember how we used a standard (centralised) HTTP server earlier on
 to serve up the `dist` folder?
-Well, let's get back to that, this time though, serving it up using Swarm.
+Well, let's serve up that same `dist` folder,
+this time using Swarm, which is decentralised.
 
 Open up a new terminal window and enter the following `swarm up` command.
 
@@ -603,7 +617,7 @@ Note the following:
   means that we want to upload a manifest (file identifying a group of files).
   Since we're uploading a folder (see `--recursive`),
   we do need a manifest.
-  Note that this is default, but we're being explicit for demo purposes.
+  > Note that this is default, but we're being explicit for demo purposes.
 
 The hash resulting from the upload is output,
 in my case it was
@@ -679,10 +693,10 @@ $ cat ./swarm-down-copy/{index.html,img/circles1.svg,css/styles.css} | sha256sum
 
 Finally let's bring this home by visiting the website in Swarm.
 
-Visit http://localhost:8500/bzz:/37dc50f16176901ff7a18dc815432f1144f93f2f26f7c794d17d6ec81f8810a8/
+Visit [http://localhost:8500/bzz:/37dc50f16176901ff7a18dc815432f1144f93f2f26f7c794d17d6ec81f8810a8/](http://localhost:8500/bzz:/37dc50f16176901ff7a18dc815432f1144f93f2f26f7c794d17d6ec81f8810a8/)
 
 You should see the website load,
-and it should look the same as the one served on http://localhost:7500/
+and it should look the same as the one served on [http://localhost:7500/](http://localhost:7500/)
 
 ## Mission accomplished
 
@@ -692,8 +706,7 @@ which is identical to the one that you have served using a centralised HTTP serv
 Where to go from here?
 
 - Update the contents of your website on Swarm
-- Propagate your Swarm webiste to other nodes
+- Propagate your Swarm website to other nodes
 - Register a decentralised domain name for your website on Swarm
-- After registering a decentralised domain name for your website on Swarm,
-  update the contents such that you get the new version at your domain
-- Dual deployment of your webiste on both swarm and a centralised web server
+  - After this, update webiste contents and point domain at new version
+- Dual deployment of your website on both swarm and a centralised web server
